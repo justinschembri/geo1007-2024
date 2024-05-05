@@ -62,7 +62,7 @@ register_geocoder = function (mapInstance) {
 
 register_geocoder(map)
 
-unction registerGeoLocate(mapInstance) {
+function registerGeoLocate(mapInstance) {
   mapInstance.locate({ setView: true, maxZoom: 16 });
 
   function onLocationFound(e) {
