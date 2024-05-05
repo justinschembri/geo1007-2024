@@ -29,3 +29,35 @@ let baseLayers = {
   "Topographical map": basemap_pdok
 };
 let toc = L.control.layers(baseLayers).addTo(map);
+
+// Register a geocoder to the map app 
+register_geocoder = function (mapInstance) {
+  let polygon = null;
+
+  function clear() {
+    if (polygon !== null) {
+      mapInstance.removeLayer(polygon);
+    }
+  }
+
+  var geocoder = L.Control.geocoder({
+    defaultMarkGeocode: false
+  })
+    .on('markgeocode', function (e) {
+      clear()
+      var bbox = e.geocode.bbox;
+      polygon = L.polygon([
+        bbox.getSouthEast(),
+        bbox.getNorthEast(),
+        bbox.getNorthWest(),
+        bbox.getSouthWest()
+      ]);
+      mapInstance.addLayer(polygon);
+      mapInstance.fitBounds(polygon.getBounds());
+      setTimeout(clear, 2500);
+    })
+    .addTo(mapInstance);
+  return geocoder;
+}
+
+register_geocoder(map)
