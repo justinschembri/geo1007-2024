@@ -89,3 +89,32 @@ function registerGeoLocate(mapInstance) {
   mapInstance.on('locationerror', onLocationError);
 }
 registerGeoLocate(map)
+
+function registerPopUpForInsert(mapInstance) {
+  var popup = L.popup();
+
+  function onMapClick(e) {
+    var lng = e.latlng.lng;
+    var lat = e.latlng.lat;
+
+    var js_function = ''
+      + ' var poi_name = document.getElementById(\'poi_name\').value ; '
+      + ' var reported_by = document.getElementById(\'reported_by\').value ; '
+      + ' insertWFS(' + lng + ',' + lat + ', poi_name, reported_by) ; ';
+
+    var popupContent = ''
+      + '<label for="poi_name">Point of Interest: </label><br>'
+      + '<input type="text" id="poi_name" name="poi_name" value=""><br>'
+      + '<label for="reported_by" >Reported by: </label><br>'
+      + '<input type="text" id="reported_by" name="reported_by" value=""><br>'
+      + '<button type="button" onclick="' + js_function + '">Insert point</button>';
+
+    popup
+      .setLatLng(e.latlng)
+      .setContent(popupContent)
+      .openOn(mapInstance);
+  }
+
+  mapInstance.on('click', onMapClick);
+}
+registerPopUpForInsert(map)
