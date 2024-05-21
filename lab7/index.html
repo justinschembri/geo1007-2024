@@ -14,6 +14,7 @@
 
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
     <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
+    <script src="https://unpkg.com/sta-map"></script>
 
     <style>
         html, body {height:100%;}
@@ -39,7 +40,20 @@
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         maxZoom: 18
     }).addTo(mymap);
-
+    L.stam({
+        baseUrl: 
+        "http://localhost:8080/FROST-Server.HTTP-2.3.1/v1.1", 
+        cluster: false,
+        clusterMin: 6,
+        queryObject: {
+            entityType: 'Things'
+        },
+        plot: {
+            startDate: new Date(Date.now() - 1000*60*60*24*60),
+            endDate: new Date()
+        }
+    }).addTo(mymap);
+    
 </script>
 
 </body>
